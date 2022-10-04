@@ -1,4 +1,16 @@
-# make sure tasks with an undefined variable in the name are gracefully handled
-- name: "Task name with undefined variable: {{ not_defined }}"
-  debug:
-    msg: Hello
+- name: Create test user
+  azure_rm_aduser:
+    user_principal_name: "{{ user_id }}"
+    tenant: "{{ tenant_id }}"
+    state: "present"
+    account_enabled: "True"
+    display_name: "Test_{{ user_principal_name }}_Display_Name"
+    password_profile: "password"
+    mail_nickname: "Test_{{ user_principal_name }}_mail_nickname"
+    immutable_id: "{{ object_id }}"
+    given_name: "First"
+    surname: "Last"
+    user_type: "Member"
+    usage_location: "US"
+    mail: "{{ user_principal_name }}@contoso.com"
+  register: create_user_should_pass
